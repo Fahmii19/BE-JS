@@ -19,5 +19,11 @@ router.get("/students", StudentController.index);
 // routing post students
 router.post("/students", StudentController.store);
 
+// routing put students
+router.put("/students/:id", StudentController.update);
+
+// routing delete students
+router.delete("/students/:id", StudentController.destroy);
+
 // export router
 module.exports = router;

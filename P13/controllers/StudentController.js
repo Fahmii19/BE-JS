@@ -20,6 +20,29 @@ class StudentController {
     };
     res.status(201).json(response);
   }
+
+  // method update untuk mengubah data students dengan asycn await
+  async update(req, res) {
+    const { id } = req.params;
+    const input = req.body;
+    await Student.update(input, id);
+    const response = {
+      message: `Mengubah data students dengan id ${id}`,
+      data: input,
+    };
+    res.status(200).json(response);
+  }
+
+  //  method destroy untuk menghapus data students dengan async await
+  async destroy(req, res) {
+    const { id } = req.params;
+    await Student.delete(id);
+    const response = {
+      message: `Menghapus data students dengan id ${id}`,
+      data: [],
+    };
+    res.status(200).json(response);
+  }
 }
 
 // buat object dari class StudentController
