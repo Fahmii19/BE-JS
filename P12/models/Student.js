@@ -24,6 +24,39 @@ class Student {
       });
     });
   }
+
+  // end point update students
+  static update(data, id, callback) {
+    return new Promise((resolve, reject) => {
+      const query = "UPDATE students SET ? WHERE id = ?";
+
+      db.query(query, [data, id], (err, result) => {
+        resolve(result);
+      });
+    });
+  }
+
+  // end point delete students
+  static delete(id, callback) {
+    return new Promise((resolve, reject) => {
+      const query = "DELETE FROM students WHERE id = ?";
+
+      db.query(query, id, (err, result) => {
+        resolve(result);
+      });
+    });
+  }
+
+  // end point get students by id
+  static findById(id, callback) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM students WHERE id = ?";
+
+      db.query(query, id, (err, result) => {
+        resolve(result);
+      });
+    });
+  }
 }
 // eksport class Student
 module.exports = Student;
