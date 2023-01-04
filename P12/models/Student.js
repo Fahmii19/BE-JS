@@ -15,31 +15,16 @@ class Student {
   }
 
   // end point create students
-  static create(data, callback) {
-    return new Promise((resolve, reject) => {
+  static async create(data) {
+    const id = await new Promise((resolve, reject) => {
       const query = "INSERT INTO students SET ?";
 
       db.query(query, data, (err, result) => {
-        resolve(result);
+        resolve(result.insertId);
       });
     });
-  }
-
-  // end point update students
-  static update(data, id, callback) {
     return new Promise((resolve, reject) => {
-      const query = "UPDATE students SET ? WHERE id = ?";
-
-      db.query(query, [data, id], (err, result) => {
-        resolve(result);
-      });
-    });
-  }
-
-  // end point delete students
-  static delete(id, callback) {
-    return new Promise((resolve, reject) => {
-      const query = "DELETE FROM students WHERE id = ?";
+      const query = "SELECT * FROM students WHERE id = ?";
 
       db.query(query, id, (err, result) => {
         resolve(result);
@@ -48,9 +33,34 @@ class Student {
   }
 
   // end point get students by id
-  static findById(id, callback) {
+  static findById(id) {
     return new Promise((resolve, reject) => {
       const query = "SELECT * FROM students WHERE id = ?";
+
+      db.query(query, id, (err, result) => {
+        resolve(result[0]);
+      });
+    });
+  }
+
+  // end point update students
+  static async update(data, id, callback) {
+    await new Promise((resolve, reject) => {
+      const query = "UPDATE students SET ? WHERE id = ?";
+
+      db.query(query, [data, id], (err, result) => {
+        resolve(result);
+      });
+    });
+
+    const student = await this.findById(id);
+    return student;
+  }
+
+  // end point delete students
+  static delete(id, callback) {
+    return new Promise((resolve, reject) => {
+      const query = "DELETE FROM students WHERE id = ?";
 
       db.query(query, id, (err, result) => {
         resolve(result);
